@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="An early-stage project exploring modular electric cargo aircraft for agricultural logistics.">
+  <title>Modular Electric Cargo Multicopter</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #10243a;
+      --teal: #168f83;
+      --paper: #f5f7f8;
+      --ink: #203040;
+      --muted: #526171;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font: 16px/1.6 system-ui, sans-serif;
+      color: var(--ink); background: white;
+    }
+    header, main, footer { max-width: 1080px; margin: auto; padding: 1.25rem; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+    a { color: var(--teal); }
+    .hero { background: var(--navy); color: white; padding: 5rem 1.5rem; }
+    .hero > div { max-width: 1080px; margin: auto; }
+    .hero p { max-width: 650px; }
+    .notice { background: #fff2cc; color: #443600; padding: .8rem 1rem; }
+    .button {
+      display: inline-block; background: var(--teal); color: white;
+      text-decoration: none; padding: .7rem 1rem; border-radius: .4rem;
+    }
+    section { padding: 2rem 0; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; }
+    .card { background: var(--paper); padding: 1.2rem; border-radius: .5rem; }
+    form { display: grid; gap: .8rem; max-width: 600px; }
+    input, textarea, button {
+      font: inherit; padding: .7rem; border: 1px solid #aab5bf; border-radius: .3rem;
+    }
+    button { background: var(--navy); color: white; cursor: pointer; }
+    #chat-panel {
+      position: fixed; right: 1rem; bottom: 1rem; width: min(360px, calc(100vw - 2rem));
+      background: white; border: 1px solid #ccd3d9; border-radius: .6rem;
+      box-shadow: 0 4px 20px #0002; padding: 1rem;
+    }
+    #chat-log { height: 220px; overflow: auto; border: 1px solid #ddd; padding: .6rem; margin: .6rem 0; }
+    .chat-row { display: flex; gap: .4rem; }
+    .chat-row input { min-width: 0; flex: 1; }
+    footer { color: var(--muted); border-top: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Modular Electric Cargo Multicopter</strong>
+    <nav aria-label="Main navigation">
+      <a href="#concept">Technology</a>
+      <a href="#development">Development</a>
+      <a href="#use-cases">Use cases</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="notice" role="status">
+    Early-stage concept only. Not certified, not available for commercial operations,
+    and not an approved aircraft design.
+  </div>
+
+  <section class="hero">
+    <div>
+      <h1>Exploring a more direct route from farm to market.</h1>
+      <p>We’re evaluating a modular, uncrewed electric aircraft concept for agricultural cargo logistics.</p>
+      <a class="button" href="#contact">Discuss a feasibility study</a>
+    </div>
+  </section>
+
+  <main>
+    <section id="concept">
+      <h2>The concept</h2>
+      <p>
+        The project explores a transportable modular frame and electric propulsion
+        for cargo-focused development. Design details and performance targets remain
+        subject to independent engineering review.
+      </p>
+      <div class="cards">
+        <article class="card"><h3>Modular frame</h3><p>Components intended to be transported and assembled for evaluation.</p></article>
+        <article class="card"><h3>Cargo-focused</h3><p>The initial project scope excludes passenger operations.</p></article>
+        <article class="card"><h3>Evidence-led</h3><p>Technical and commercial assumptions will be tested before operational claims are made.</p></article>
+      </div>
+    </section>
+
+    <section id="development">
+      <h2>Development and safety</h2>
+      <p>
+        The project will seek qualified engineering and regulatory advice before
+        prototype testing. Any testing or future operations would require appropriate
+        review, permissions, and compliance with applicable rules.
+      </p>
+    </section>
+
+    <section id="use-cases">
+      <h2>Potential use case: agricultural logistics</h2>
+      <p>
+        We’re interested in speaking with farms, produce buyers, and logistics
+        providers about specific routes, needs, and economics. No delivery
+        performance or cost advantage has yet been established.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Share your interest in a feasibility discussion. Do not submit confidential or sensitive information.</p>
+      <form id="contact-form">
+        <label>Name <input name="name" maxlength="100" required></label>
+        <label>Email <input name="email" type="email" maxlength="200" required></label>
+        <label>Message <textarea name="message" maxlength="2000" required></textarea></label>
+        <button type="submit">Send inquiry</button>
+        <span id="form-status" role="status"></span>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    Inventor: Alexander Domashev · Los Angeles, USA · 2026<br>
+    Project status: early-stage concept.
+  </footer>
+
+  <aside id="chat-panel" aria-label="Project information chatbot">
+    <strong>Project Q&amp;A</strong>
+    <p><small>Automated assistant; it may be inaccurate. For technical, safety, or regulatory decisions, consult qualified professionals.</small></p>
+    <div id="chat-log" aria-live="polite"></div>
+    <form id="chat-form" class="chat-row">
+      <label for="chat-input" class="sr-only">Ask a question</label>
+      <input id="chat-input" maxlength="500" placeholder="Ask about the project…" required>
+      <button type="submit">Send</button>
+    </form>
+  </aside>
+
+  <script>
+    const API = "/api";
+    const status = document.querySelector("#form-status");
+
+    document.querySelector("#contact-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      status.textContent = "Sending…";
+      const data = Object.fromEntries(new FormData(event.currentTarget));
+      try {
+        const response = await fetch(`${API}/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error("Request failed");
+        event.currentTarget.reset();
+        status.textContent = "Thanks. Your inquiry was submitted.";
+      } catch {
+        status.textContent = "Could not submit. Please try again later.";
+      }
+    });
+
+    const log = document.querySelector("#chat-log");
+    function addMessage(who, text) {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = `${who}: `;
+      p.append(strong, document.createTextNode(text));
+      log.append(p);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    document.querySelector("#chat-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const input = document.querySelector("#chat-input");
+      const question = input.value.trim();
+      if (!question) return;
+      addMessage("You", question);
+      input.value = "";
+      try {
+        const response = await fetch(`${API}/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+        const data = await response.json();
+        addMessage("Assistant", data.answer || "Please try again later.");
+      } catch {
+        addMessage("Assistant", "The project assistant is temporarily unavailable.");
+      }
+    });
+  </script>
+</body>
+</html>

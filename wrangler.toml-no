@@ -1,0 +1,6 @@
+name = "multicopter-site-api"
+main = "worker/src/index.js"
+compatibility_date = "2026-11-03"
+
+[vars]
+OPENAI_MODEL = "gpt-4.1-mini"
